@@ -1,0 +1,33 @@
+version: 2
+
+sources: 
+  - name: dbt_konrad
+    tables:
+      - name: sales 
+        identifier: dbt_raw_sales
+        description: sales of Greenweez / we have on row per product_id found in each orders_id
+        columns:
+          - name: date_date
+            description: date of purchase
+          - name: orders_id
+            description: nr. of order identifier
+          - name: products_id
+            description: product identifier
+          - name: revenue
+            description: revenue per order 
+          - name: quantity
+            description: quantity ordered per order
+        tests:
+          - unique: 
+              column_name: "(orders_id||products_id)"
+      - name: product
+        identifier: dbt_raw_product
+        description: product list of Greenweez
+        columns: 
+          - name: products_id
+            description: primary key / product identifier
+            tests:
+              - unique
+              - not_null
+          - name: purchase_price
+            description: price per product
